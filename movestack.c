@@ -43,32 +43,19 @@ movestack(const Arg *arg) {
 		else if(c == selmon->clients)
 			selmon->clients = selmon->sel;
 
+		focus(c);		
 		arrange(selmon);
-		focus(c);
 	}
 }
 
 void
 swapstack(const Arg *arg) {
-  if (!selmon->sel) return;
-  Client *p = NULL, *i;
-  Client *temp = selmon->clients;
-  Client *next = selmon->sel->next;
-  //  Client *snext = selmon->sel->snext;
-  /* find the client before selmon->sel*/
-  for(i = selmon->clients; i && !p; i = i->next) {
-    if(i->next == selmon->sel) {
-      p = i;
-      break;
-    }
-  }  
-  selmon->clients = selmon->sel;
-  selmon->clients->next = temp->next;
-  //  selmon->clients->snext = temp->snext;  
-  selmon->sel = temp;
-  selmon->sel->next = next;
-  //  selmon->sel->snext = snext;
-  if (p) p->next = selmon->sel;  
+  Client *c = selmon->sel;
+  if (c == selmon->clients || c->isfloating)
+    for(c = selmon->clients->next; c && c->isfloating; c = c->next);
+  if (!c) return;
+  detach(c);
+  attach(c);
+  focus(c);
   arrange(selmon);
-  focus(selmon->sel);
 }
