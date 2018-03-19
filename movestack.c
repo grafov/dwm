@@ -51,8 +51,7 @@ movestack(const Arg *arg) {
 void
 swapstack(const Arg *arg) {
   Client *c = selmon->sel;
-  if (c == selmon->clients || c->isfloating)
-    for(c = selmon->clients->next; c && c->isfloating; c = c->next);
+  if (selmon->clients && c == selmon->clients) c = selmon->clients->next;
   if (!c) return;
   detach(c);
   attach(c);
