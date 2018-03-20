@@ -1,5 +1,6 @@
 void
-movestack(const Arg *arg) {
+movestack(const Arg *arg)
+{
 	Client *c = NULL, *p = NULL, *pc = NULL, *i;
 
 	if(arg->i > 0) {
@@ -29,8 +30,8 @@ movestack(const Arg *arg) {
 
 	/* swap c and selmon->sel selmon->clients in the selmon->clients list */
 	if(c && c != selmon->sel) {
-		Client *temp = selmon->sel->next==c?selmon->sel:selmon->sel->next;
-		selmon->sel->next = c->next==selmon->sel?c:c->next;
+		Client *temp = selmon->sel->next==c ? selmon->sel : selmon->sel->next;
+		selmon->sel->next = c->next==selmon->sel ? c : c->next;
 		c->next = temp;
 
 		if(p && p != c)
@@ -43,18 +44,20 @@ movestack(const Arg *arg) {
 		else if(c == selmon->clients)
 			selmon->clients = selmon->sel;
 
-		focus(c);		
+		focus(c);
 		arrange(selmon);
 	}
 }
 
 void
-swapstack(const Arg *arg) {
-  Client *c = selmon->sel;
-  if (selmon->clients && c == selmon->clients) c = selmon->clients->next;
-  if (!c) return;
-  detach(c);
-  attach(c);
-  focus(c);
-  arrange(selmon);
+swapstack(const Arg *arg)
+{
+	Client *c = selmon->sel;
+	if (selmon->clients && c == selmon->clients) c = selmon->clients->next;
+	if (!c) return;
+	detach(c);
+	attach(c);
+	focus(c);
+	arrange(selmon);
 }
+
